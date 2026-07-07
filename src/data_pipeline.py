@@ -20,7 +20,7 @@ def split_data_for_training(df):
     return X_train, X_test, y_train, y_test
 
 def train_svc_model(df):
-    print("Starting Trainig of SVC")
+    print("Starting Training of SVC")
     svc_pipeline = build_svc_pipeline()
     best_model = find_model_with_optimal_hyperparameters(df, svc_pipeline, config.SVC_PARAM_GRID)
     dump_best_model(best_model, "best_svc_model.pkl")
