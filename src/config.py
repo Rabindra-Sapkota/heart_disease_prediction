@@ -9,7 +9,7 @@ CLEAN_DATA_PATH = os.path.join(
 )
 
 # Model Paths
-MODEL_PATH = os.path.join(BASE_DIR, "models", "heart_disease_model.pkl")
+MODEL_FOLDER = os.path.join(BASE_DIR, "models")
 METRICS_PATH = os.path.join(BASE_DIR, "models", "metrics.json")
 
 # Data Columns
@@ -36,7 +36,7 @@ EXERCISE_ORDER = ["daily", "weekly", "monthly"]
 NOMINAL_COLUMNS = ['Gender']
 BOOLEAN_COLUMNS = ["currentSmoker", "prevalentStroke", "prevalentHyp"]
 UNWANTED_COLUMNS = ['BPMeds']
-
+FEATURE_COLUMNS = NUMERIC_COLUMNS + CATEGORICAL_COLUMNS + BOOLEAN_COLUMNS
 
 
 GENDER_MAPPING = {
@@ -78,3 +78,9 @@ CATEGORICAL_COLUMN_MAPPINGS = (
 ## Training param
 RANDOM_SEED = 101
 SPLIT_SIZE = 0.2
+
+# Parameter Grid for RandomSearchCV
+SVC_PARAM_GRID = {
+    "classifier__C": [0.1, 1, 10],
+    "classifier__kernel": ["linear", "rbf"],
+    }

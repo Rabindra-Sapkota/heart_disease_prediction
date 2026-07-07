@@ -13,6 +13,7 @@ def clean_data(df):
     if os.path.exists(config.CLEAN_DATA_PATH):
         print("Clean Data Already Exists. Loading from file")
         clean_df = load_data(config.CLEAN_DATA_PATH)
+        print(clean_df.isna().sum())
         return clean_df
     else:
         print("Cleanup required")
@@ -23,9 +24,9 @@ def clean_data(df):
             inplace=True,
         )
         df_copy.drop(columns=config.UNWANTED_COLUMNS, inplace=True)
-        # print(df_copy.columns) # : To check column names
-        # print(df_copy['Gender'].str.lower().value_counts())
-        # print(df_copy['Exercise'].str.lower().value_counts())
+            # print(df_copy.columns) # : To check column names
+            # print(df_copy['Gender'].str.lower().value_counts())
+            # print(df_copy['Exercise'].str.lower().value_counts())
 
         for col_name, mapping in config.CATEGORICAL_COLUMN_MAPPINGS:
             print(f"Cleaning data for column: {col_name}")
@@ -43,20 +44,27 @@ def clean_data(df):
         df_copy.to_csv(config.CLEAN_DATA_PATH, index=False)
 
         print("Cleanup completed")
+        print(df_copy.isna().sum())
         return df_copy
 
 
 def _clean_categorical(series, series_mapping):
     clean_series = series.str.lower()
-    mode_value = series.mode()
-    clean_series = clean_series.fillna(mode_value, inplace=True)
+    mode_value = clean_series.mode().iloc[0]
+    print("Missing Values in column: ", series.name)
+    print(clean_series.isna().sum())
+    clean_series = clean_series.fillna(mode_value)
+    print("After missing value imputation: ", clean_series.isna().sum())
     clean_series = clean_series.map(series_mapping)
+
     return clean_series
 
 def _clean_numeric(series):
     new_ser = _clean_non_numeric_in_digit(series)
-    median = np.median(new_ser)
-    new_ser.fillna(median)
+    median = new_ser.median()
+    print(f"Missing values in {series.name}: {new_ser.isna().sum()}")
+    new_ser = new_ser.fillna(median)
+    print(f"After cleaning Missing values in {series.name}: {new_ser.isna().sum()}")
     clean_series = _cleanup_outlier(new_ser)
     return clean_series
 
