@@ -79,8 +79,31 @@ CATEGORICAL_COLUMN_MAPPINGS = (
 RANDOM_SEED = 101
 SPLIT_SIZE = 0.2
 
-# Parameter Grid for RandomSearchCV
+# Parameter Grid for RandomSearchCV # SVC Hyperparameters
 SVC_PARAM_GRID = {
     "classifier__C": [0.1, 1, 10],
     "classifier__kernel": ["linear", "rbf"],
     }
+
+
+# KNN Hyperparameters
+KNN_PARAM_GRID = {
+    "classifier__n_neighbors": [3, 5, 7, 9, 11],
+    "classifier__weights": ["uniform", "distance"],
+    "classifier__metric": ["euclidean", "manhattan"],
+}
+
+# Logistic Regression Hyperparameters
+LOGISTIC_PARAM_GRID = {
+    "classifier__C": [0.01, 0.1, 1, 10],
+    "classifier__solver": ["liblinear", "lbfgs"],
+    "classifier__max_iter": [100, 300, 500],
+}
+
+# Random Forest Hyperparameters
+RANDOM_FOREST_PARAM_GRID = {
+    "classifier__n_estimators": [100, 200, 300],
+    "classifier__max_depth": [None, 5, 10, 20],
+    "classifier__min_samples_split": [2, 5, 10],
+    "classifier__min_samples_leaf": [1, 2, 4],
+}
