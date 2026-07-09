@@ -67,6 +67,14 @@ EXERCISE_MAPPING = {
     "dialy": "daily",
 }
 
+TARGET_COLUMN_MAPPING = {
+    "no": 0,
+    "yes": 1,
+    "No": 0,
+    "YES": 1,
+    0: 0,
+    1: 1,
+}
 
 CATEGORICAL_COLUMN_MAPPINGS = (
     ("Gender", GENDER_MAPPING),
@@ -78,6 +86,8 @@ CATEGORICAL_COLUMN_MAPPINGS = (
 ## Training param
 RANDOM_SEED = 101
 SPLIT_SIZE = 0.2
+N_ITER = 10
+CV = 10
 
 # Parameter Grid for RandomSearchCV # SVC Hyperparameters
 SVC_PARAM_GRID = {

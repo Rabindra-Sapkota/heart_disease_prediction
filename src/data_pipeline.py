@@ -13,8 +13,11 @@ from sklearn.model_selection import train_test_split
 
 def split_data_for_training(df):
     df_copy = df.copy()
+    print("Splitting data into features and target")
     X = df_copy[config.FEATURE_COLUMNS]
     y = df_copy[config.TARGET_COLUMN_CLEANED]
+    print(y.value_counts())
+
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=config.SPLIT_SIZE, random_state=config.RANDOM_SEED, stratify=y)
     return X_train, X_test, y_train, y_test
 
@@ -55,17 +58,25 @@ def build_pipeline(model):
 #     return svc_pipeline
 
 # Generic Dynamic training function
-def train_model(df, model, param_grid):
+def train_model(df, model, param_grid, model_name):
+    # best_model_path = os.path.join(config.MODEL_FOLDER, f"best_model_{model_name}.pkl")
+
+    # if os.path.exists(best_model_path):
+    #     print(f"Best model for {model_name} already exists. Loading the model...")
+    #     best_model = joblib.load(best_model_path)
+    #     print(f"Model loaded from {best_model_path}")
+    #     return best_model
 
     pipeline = build_pipeline(model)
 
-    best_model, accuracy = find_model_with_optimal_hyperparameters(
+    accuracy = find_model_with_optimal_hyperparameters(
         df,
         pipeline,
         param_grid,
+        model_name
     )
 
-    return best_model, accuracy
+    return accuracy
 
 
 
@@ -126,7 +137,7 @@ def build_preprocessor():
 #     return best_model
 
 
-def find_model_with_optimal_hyperparameters(df, model_pipeline, param_grid):
+def find_model_with_optimal_hyperparameters(df, model_pipeline, param_grid, model_name):
     """
     Finds the best hyperparameters for the given model pipeline using
     RandomizedSearchCV and returns the best trained model along with
@@ -170,16 +181,14 @@ def find_model_with_optimal_hyperparameters(df, model_pipeline, param_grid):
     print(f"Test Accuracy   : {test_accuracy:.4f}")
     print("======================================\n")
 
-    return best_model, test_accuracy
+    dump_best_model(best_model, f"best_model_{model_name}.pkl")
+
+    return test_accuracy
 
     # y_pred = best_model.predict(X_test)
     # test_accuracy = best_model.score(X_test, y_test)
 
 
-# def dump_best_model(model, model_name):
-#     full_path = os.path.join(config.MODEL_FOLDER, model_name)
-#     joblib.dump(model, full_path)
-#     print(f"Best model saved as {model_name}")
 
 def dump_best_model(model, model_name):
 
