@@ -1,0 +1,6 @@
+{
+    "SVC": 0.85,
+    "KNN": 0.85,
+    "Logistic Regression": 0.86,
+    "Random Forest": 0.86
+}

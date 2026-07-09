@@ -13,7 +13,7 @@ def clean_data(df):
     if os.path.exists(config.CLEAN_DATA_PATH):
         print("Clean Data Already Exists. Loading from file")
         clean_df = load_data(config.CLEAN_DATA_PATH)
-        print(clean_df.isna().sum())
+        clean_df.dropna(inplace=True)
         return clean_df
     else:
         print("Cleanup required")
@@ -39,6 +39,8 @@ def clean_data(df):
 
         print("Removing duplicates")
         df_copy.drop_duplicates(inplace=True)
+        df_copy[config.TARGET_COLUMN_CLEANED] = df_copy[config.TARGET_COLUMN_CLEANED].map(config.TARGET_COLUMN_MAPPING)
+        df_copy.dropna(inplace=True)
 
         print("Saving files")
         df_copy.to_csv(config.CLEAN_DATA_PATH, index=False)
