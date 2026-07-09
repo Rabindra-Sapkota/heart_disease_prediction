@@ -111,31 +111,6 @@ def build_preprocessor():
     return preprocessor
 
 
-# def find_model_with_optimal_hyperparameters(df, model_pipeline, param_grid):
-#     X_train, X_test, y_train, y_test = split_data_for_training(df)
-
-#     random_search = RandomizedSearchCV(
-#         estimator=model_pipeline,
-#         param_distributions=param_grid,
-#         cv=10,
-#         n_jobs=-1,
-#         verbose=2
-#     )
-
-#     start_time = time.time()
-#     print("Starting Randomized Search for Hyperparameter Tuning...")
-#     print(start_time)
-#     random_search.fit(X_train, y_train)
-#     end_time = time.time()
-#     print("Training Completed")
-#     print(end_time)
-
-#     best_params = random_search.best_params_
-#     best_score = random_search.best_score_
-#     best_model = random_search.best_estimator_
-
-#     return best_model
-
 
 def find_model_with_optimal_hyperparameters(df, model_pipeline, param_grid, model_name):
     """
